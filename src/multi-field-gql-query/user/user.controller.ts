@@ -16,7 +16,7 @@ export class UserController {
 
   @Post('/')
   async createUser (@Body() user: any): Promise<User> {
-    return this.usersService.createUser(user.email, user.age);
+    return this.usersService.createUser(user.email, user.age, user.name);
   }
 
 }

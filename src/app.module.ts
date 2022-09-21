@@ -2,10 +2,12 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './modules/user/user.module';
+import { UserModule } from './multi-field-gql-query/user/user.module';
+import { PhoneModule } from './multi-field-gql-query/phone/phone.module';
 
 @Module({
   imports: [
+    PhoneModule,
     UserModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -16,7 +18,7 @@ import { UserModule } from './modules/user/user.module';
 
       autoSchemaFile: true,
 
-      include: [UserModule],
+      include: [UserModule, PhoneModule],
 
       subscriptions: {
         'graphql-ws': true,
@@ -26,7 +28,5 @@ import { UserModule } from './modules/user/user.module';
     }),
     MongooseModule.forRoot('mongodb://localhost/nestjs-article'),
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

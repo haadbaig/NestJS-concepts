@@ -1,6 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PhoneModule } from '../phone/phone.module';
+import { PhoneRepository } from '../phone/phone.repository';
+import { PhoneService } from '../phone/phone.service';
 import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
 import { UserResolver } from './user.resolver';
@@ -13,9 +16,10 @@ import { UsersService } from './user.service';
     name: User.name, 
     schema: UserSchema,
     }]),
+    PhoneModule,
   ],
   controllers: [UserController],
-  providers: [UserResolver,UsersService, UserRepository],
+  providers: [UserResolver, UsersService, UserRepository],
 
 })
 export class UserModule {}
