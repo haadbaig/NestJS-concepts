@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql';
+import { ArgsType, Field, Float, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document} from 'mongoose';
-import { Transform } from 'class-transformer';
-import * as mongodb from 'mongodb'
+import { Blob } from 'buffer';
+import { Stream } from 'stream';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
+
 
 export type UserDocument = User & Document;
-
 @ArgsType()
 @Schema({
 })
@@ -14,12 +15,17 @@ export type UserDocument = User & Document;
 export class User {
   
   @Prop()
-  @Field(() => String)
+  @Field(() => String, {nullable: true})
   email: string;
 
   @Prop()
-  @Field( () => Int)
+  @Field( () => Int, {nullable: true})
   age: number;
+
+  @Prop({type: Buffer})
+  @Field(() => GraphQLUpload,{nullable: true})
+  image: FileUpload
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -18,7 +18,7 @@ export class UsersService {
 
     }
 
-    async createUser(email: string, age: number): Promise<User> {
-        return await this.userRepository.create(email, age);
+    async createUser(email: string, age: number, file): Promise<User> {
+        return await this.userRepository.create(email, age, file);
     }
 }

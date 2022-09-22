@@ -10,10 +10,13 @@ export class UserRepository{
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ){ }
 
-  async create(email, age): Promise<User> {
+  async create(email, age, file): Promise<User> {
+    // console.log("file ", file)
+    // console.log("file ", Buffer.from(file.buffer).toString('base64'))
     const u = await this.userModel.create({
       email,
       age,
+      image: Buffer.from(file).toString('base64')
     });
     u.save();
     return u;

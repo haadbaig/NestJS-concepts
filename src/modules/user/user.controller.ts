@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "./user.schema";
 import { UsersService } from "./user.service";
 
@@ -15,8 +16,12 @@ export class UserController {
   }
 
   @Post('/')
-  async createUser (@Body() user: any): Promise<User> {
-    return this.usersService.createUser(user.email, user.age);
+  @UseInterceptors(FileInterceptor('image'))
+  async createUser (@UploadedFile() file: Express.Multer.File, 
+    @Body() body
+  ): Promise<User> {
+    
+    return this.usersService.createUser(body.email, body.age, file.buffer);
   }
 
 }
